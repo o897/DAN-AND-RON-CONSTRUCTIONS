@@ -9,28 +9,26 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --black: #0d0d0d;
-      --dark: #141414;
-      --steel: #1e2228;
-      --mid: #2c3140;
-      --orange: #e8610a;
-      --orange-light: #ff7b25;
-      --cream: #f0ead8;
-      --muted: #8a8f99;
-      --white: #f8f6f0;
+      --orange: #d95c08;
+      --orange-light: #f06a14;
+      --muted: #7a746c;
+      --white-text: #1c1917;
+      --dark-bg: #1a1a1a;
+      --cream-bg: #faf9f6;
+      --steel: #f4f2ee;
+      --mid: #e8e4dc;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--black);
-      color: var(--white);
+      background: var(--cream-bg);
+      color: var(--white-text);
       font-family: 'Barlow', sans-serif;
       font-weight: 400;
       overflow-x: hidden;
     }
 
-    /* ─── NOISE OVERLAY ─── */
     body::before {
       content: '';
       position: fixed; inset: 0;
@@ -43,48 +41,103 @@
     /* ─── NAV ─── */
     nav {
       position: fixed; top: 0; left: 0; right: 0;
-      z-index: 100;
+      z-index: 200;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 1.4rem 4rem;
-      background: rgba(13,13,13,0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(232,97,10,0.15);
+      padding: 1.2rem 4rem;
+      background: rgba(250,249,246,0.95);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(217,92,8,0.15);
+      transition: border-color 0.3s;
     }
 
     .nav-logo {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.5rem;
+      font-size: 1.45rem;
       letter-spacing: 0.12em;
-      color: var(--white);
+      color: var(--white-text);
+      text-decoration: none;
     }
     .nav-logo span { color: var(--orange); }
 
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
     .nav-links a {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
+      font-size: 0.82rem; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--orange); }
 
+    .nav-right { display: flex; align-items: center; gap: 1.2rem; }
+
+    .nav-phone {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .nav-phone:hover { color: var(--orange); }
+
     .nav-cta {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--black);
-      background: var(--orange);
-      padding: 0.6rem 1.4rem;
-      text-decoration: none;
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: #fff; background: var(--orange);
+      padding: 0.6rem 1.3rem; text-decoration: none;
       transition: background 0.2s;
+      white-space: nowrap;
     }
     .nav-cta:hover { background: var(--orange-light); }
+
+    /* Hamburger */
+    .nav-burger {
+      display: none;
+      flex-direction: column; justify-content: center; gap: 5px;
+      width: 36px; height: 36px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .nav-burger span {
+      display: block; height: 2px; width: 100%;
+      background: var(--white-text); border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed; top: 64px; left: 0; right: 0;
+      background: rgba(250,249,246,0.98);
+      backdrop-filter: blur(14px);
+      border-bottom: 2px solid var(--orange);
+      z-index: 199;
+      flex-direction: column;
+      padding: 1.5rem 2rem 2rem;
+      gap: 0;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--white-text); text-decoration: none;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(217,92,8,0.12);
+      transition: color 0.2s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--orange); }
+    .mobile-menu .mob-cta {
+      margin-top: 1rem;
+      background: var(--orange); color: #fff;
+      text-align: center; padding: 1rem;
+      font-size: 0.9rem; border-bottom: none;
+    }
+    .mobile-menu .mob-cta:hover { background: var(--orange-light); }
 
     /* ─── HERO ─── */
     #hero {
@@ -98,55 +151,43 @@
     .hero-left {
       display: flex; flex-direction: column; justify-content: flex-end;
       padding: 10rem 4rem 6rem;
-      position: relative;
-      z-index: 2;
+      position: relative; z-index: 2;
     }
 
     .hero-eyebrow {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.3s forwards;
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 0.8s 0.3s forwards;
     }
 
     .hero-title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(5rem, 9vw, 9rem);
-      line-height: 0.92;
-      letter-spacing: 0.02em;
-      color: var(--white);
-      opacity: 0;
-      animation: fadeUp 0.9s 0.5s forwards;
+      font-size: clamp(4.5rem, 8vw, 9rem);
+      line-height: 0.92; letter-spacing: 0.02em;
+      color: #1c1917;
+      opacity: 0; animation: fadeUp 0.9s 0.5s forwards;
     }
     .hero-title .accent { color: var(--orange); display: block; }
 
     .hero-sub {
-      margin-top: 2rem;
-      max-width: 380px;
-      font-size: 1.05rem;
-      font-weight: 300;
-      line-height: 1.7;
+      margin-top: 2rem; max-width: 380px;
+      font-size: 1rem; font-weight: 300; line-height: 1.75;
       color: var(--muted);
-      opacity: 0;
-      animation: fadeUp 0.9s 0.7s forwards;
+      opacity: 0; animation: fadeUp 0.9s 0.7s forwards;
     }
 
     .hero-actions {
-      display: flex; gap: 1rem; margin-top: 2.5rem;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.9s forwards;
+      display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.9s 0.9s forwards;
     }
 
     .btn-primary {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.85rem; font-weight: 700;
       letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--black); background: var(--orange);
+      color: #fff; background: var(--orange);
       padding: 1rem 2.2rem; text-decoration: none;
       border: 2px solid var(--orange);
       transition: background 0.2s, color 0.2s;
@@ -157,94 +198,66 @@
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.85rem; font-weight: 700;
       letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--white); background: transparent;
+      color: #1c1917; background: transparent;
       padding: 1rem 2.2rem; text-decoration: none;
-      border: 2px solid rgba(255,255,255,0.2);
-      transition: border-color 0.2s, color 0.2s;
+      border: 2px solid rgba(28,25,23,0.3);
+      transition: border-color 0.2s;
     }
-    .btn-outline:hover { border-color: var(--white); }
+    .btn-outline:hover { border-color: #1c1917; }
 
-    /* hero right – large image placeholder with geometric overlay */
+    /* Hero Right */
     .hero-right {
       position: relative;
-      background:
-        linear-gradient(135deg, rgba(232,97,10,0.08) 0%, transparent 60%),
-        linear-gradient(to bottom, #1e2228, #0d0d0d);
+      background: linear-gradient(135deg, rgba(217,92,8,0.06) 0%, transparent 60%),
+                  linear-gradient(to bottom, #ede9e1, #faf9f6);
       overflow: hidden;
     }
-
     .hero-right::before {
       content: '';
       position: absolute; inset: 0;
       background:
-        repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 59px,
-          rgba(232,97,10,0.07) 59px,
-          rgba(232,97,10,0.07) 60px
-        ),
-        repeating-linear-gradient(
-          90deg,
-          transparent,
-          transparent 59px,
-          rgba(232,97,10,0.07) 59px,
-          rgba(232,97,10,0.07) 60px
-        );
+        repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(217,92,8,0.08) 59px,rgba(217,92,8,0.08) 60px),
+        repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(217,92,8,0.08) 59px,rgba(217,92,8,0.08) 60px);
     }
-
     .hero-graphic {
-      position: absolute;
-      top: 50%; left: 50%;
+      position: absolute; top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       width: 70%; max-width: 420px;
-      opacity: 0;
-      animation: fadeIn 1.2s 0.6s forwards;
+      opacity: 0; animation: fadeIn 1.2s 0.6s forwards;
     }
-
-    .hero-stat-strip {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      display: flex;
-      border-top: 1px solid rgba(232,97,10,0.2);
-    }
-    .hero-stat {
-      flex: 1;
-      padding: 1.5rem;
-      border-right: 1px solid rgba(232,97,10,0.1);
-      text-align: center;
-    }
-    .hero-stat:last-child { border-right: none; }
-    .stat-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.4rem;
-      color: var(--orange);
-      display: block;
-    }
-    .stat-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    /* diagonal accent */
     .hero-diagonal {
-      position: absolute;
-      top: 0; right: 0;
+      position: absolute; top: 0; right: 0;
       width: 0; height: 0;
       border-left: 80px solid transparent;
       border-top: 80px solid var(--orange);
       z-index: 3;
     }
+    .hero-stat-strip {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      display: flex;
+      border-top: 1px solid rgba(217,92,8,0.2);
+      background: rgba(250,249,246,0.7);
+    }
+    .hero-stat {
+      flex: 1; padding: 1.4rem;
+      border-right: 1px solid rgba(217,92,8,0.12);
+      text-align: center;
+    }
+    .hero-stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem; color: var(--orange); display: block;
+    }
+    .stat-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: #7a746c;
+    }
 
     /* ─── MARQUEE ─── */
     .marquee-strip {
-      background: var(--orange);
-      padding: 0.75rem 0;
-      overflow: hidden;
-      white-space: nowrap;
+      background: var(--orange); padding: 0.75rem 0;
+      overflow: hidden; white-space: nowrap;
     }
     .marquee-inner {
       display: inline-block;
@@ -252,198 +265,149 @@
     }
     .marquee-inner span {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.1rem;
-      letter-spacing: 0.15em;
-      color: var(--black);
-      padding: 0 3rem;
+      font-size: 1.1rem; letter-spacing: 0.15em;
+      color: #1a1a1a; padding: 0 3rem;
     }
     .marquee-inner span.dot { padding: 0; opacity: 0.5; }
-
     @keyframes marquee {
       from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
+      to   { transform: translateX(-50%); }
     }
 
     /* ─── SECTION COMMONS ─── */
     section { padding: 7rem 4rem; }
-
     .section-label {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.72rem; font-weight: 600;
       letter-spacing: 0.3em; text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 1rem;
+      color: var(--orange); margin-bottom: 1rem;
     }
     .section-heading {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 5vw, 5rem);
-      line-height: 1;
-      letter-spacing: 0.03em;
+      font-size: clamp(2.8rem, 5vw, 5rem);
+      line-height: 1; letter-spacing: 0.03em;
     }
 
     /* ─── SERVICES ─── */
-    #services { background: var(--dark); }
-
+    #services { background: #ffffff; }
     .services-header {
       display: flex; align-items: flex-end; justify-content: space-between;
-      margin-bottom: 4rem;
-      gap: 2rem;
+      margin-bottom: 4rem; gap: 2rem; flex-wrap: wrap;
     }
     .services-header p {
-      max-width: 340px;
-      font-size: 0.95rem; font-weight: 300;
-      line-height: 1.8; color: var(--muted);
+      max-width: 340px; font-size: 0.95rem; font-weight: 300;
+      line-height: 1.8; color: #7a746c;
     }
-
     .services-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: rgba(232,97,10,0.15);
+      gap: 1px; background: rgba(217,92,8,0.12);
     }
-
     .service-card {
-      background: var(--steel);
-      padding: 2.5rem;
-      position: relative;
-      overflow: hidden;
+      background: #faf9f6; padding: 2.5rem;
+      position: relative; overflow: hidden;
       transition: background 0.3s;
     }
-    .service-card:hover { background: #252b36; }
+    .service-card:hover { background: #fff; }
     .service-card::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 3px;
+      content: ''; position: absolute;
+      bottom: 0; left: 0; right: 0; height: 3px;
       background: var(--orange);
-      transform: scaleX(0);
-      transform-origin: left;
+      transform: scaleX(0); transform-origin: left;
       transition: transform 0.35s ease;
     }
     .service-card:hover::after { transform: scaleX(1); }
-
-    .service-icon {
-      width: 48px; height: 48px;
-      margin-bottom: 1.5rem;
-      color: var(--orange);
-    }
+    .service-icon { width: 44px; height: 44px; margin-bottom: 1.4rem; color: var(--orange); }
     .service-num {
       position: absolute; top: 1.5rem; right: 1.8rem;
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 4rem; color: rgba(232,97,10,0.07);
+      font-size: 4rem; color: rgba(217,92,8,0.08);
       line-height: 1; pointer-events: none;
     }
     .service-title {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.35rem; font-weight: 700;
+      font-size: 1.3rem; font-weight: 700;
       letter-spacing: 0.05em; text-transform: uppercase;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.65rem; color: #1c1917;
     }
-    .service-desc {
-      font-size: 0.88rem; font-weight: 300;
-      line-height: 1.75; color: var(--muted);
-    }
+    .service-desc { font-size: 0.87rem; font-weight: 300; line-height: 1.75; color: #7a746c; }
 
     /* ─── PROJECTS ─── */
-    #projects { background: var(--black); }
-
+    #projects { background: #f4f2ee; }
     .projects-header {
       display: flex; align-items: flex-end; justify-content: space-between;
-      margin-bottom: 3.5rem;
+      margin-bottom: 3.5rem; flex-wrap: wrap; gap: 1.5rem;
     }
 
+    /* Mosaic grid */
     .projects-grid {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr;
       grid-template-rows: 280px 280px;
-      gap: 1px;
-      background: rgba(255,255,255,0.04);
+      gap: 3px; background: rgba(217,92,8,0.1);
     }
-
-    .project-card {
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-    }
+    .project-card { position: relative; overflow: hidden; cursor: pointer; }
     .project-card:first-child { grid-row: 1 / 3; }
 
     .project-bg {
       position: absolute; inset: 0;
-      background-size: cover;
-      background-position: center;
-      transition: transform 0.5s ease;
+      background-size: cover; background-position: center;
+      transition: transform 0.55s ease;
     }
     .project-card:hover .project-bg { transform: scale(1.07); }
-
-    /* Dark overlay on each photo for readability */
     .project-bg::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: rgba(0,0,0,0.35);
-      transition: background 0.35s;
+      content: ''; position: absolute; inset: 0;
+      background: rgba(0,0,0,0.38); transition: background 0.35s;
     }
     .project-card:hover .project-bg::after { background: rgba(0,0,0,0.2); }
 
-    .p1 .project-bg { background-image: url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=900&auto=format&fit=crop'); }
-    .p2 .project-bg { background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=700&auto=format&fit=crop'); }
-    .p3 .project-bg { background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=700&auto=format&fit=crop'); }
-    .p4 .project-bg { background-image: url('https://images.unsplash.com/photo-1590274853856-f22d5ee3d228?w=700&auto=format&fit=crop'); }
-    .p5 .project-bg { background-image: url('https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=700&auto=format&fit=crop'); }
-
-    .project-pattern { display: none; }
+    /* Real Unsplash construction images */
+    .p1 .project-bg { background-image: url('https://images.unsplash.com/photo-1613977257363-707ba9348227?w=900&auto=format&fit=crop&q=80'); }
+    .p2 .project-bg { background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=700&auto=format&fit=crop&q=80'); }
+    .p3 .project-bg { background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=700&auto=format&fit=crop&q=80'); }
+    .p4 .project-bg { background-image: url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=700&auto=format&fit=crop&q=80'); }
+    .p5 .project-bg { background-image: url('https://images.unsplash.com/photo-1590274853856-f22d5ee3d228?w=700&auto=format&fit=crop&q=80'); }
 
     .project-info {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
+      position: absolute; bottom: 0; left: 0; right: 0;
       padding: 1.5rem 1.8rem;
       background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.3) 70%, transparent 100%);
-      z-index: 2;
-      transition: padding 0.3s;
+      z-index: 2; transition: padding 0.3s;
     }
     .project-card:hover .project-info { padding-bottom: 2rem; }
-
     .project-tag {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.65rem; font-weight: 600;
       letter-spacing: 0.25em; text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 0.35rem;
+      color: var(--orange); margin-bottom: 0.35rem;
     }
     .project-name {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem; letter-spacing: 0.05em;
+      font-size: 1.35rem; letter-spacing: 0.05em; color: #fff;
     }
-
-
 
     /* ─── WHY US ─── */
     #why {
-      background: var(--steel);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: center;
+      background: #ffffff;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 6rem; align-items: center;
     }
     .why-left .section-heading { margin-bottom: 1.5rem; }
     .why-left p {
       font-size: 1rem; font-weight: 300;
-      line-height: 1.85; color: var(--muted);
-      margin-bottom: 2rem;
+      line-height: 1.85; color: #7a746c; margin-bottom: 2rem;
     }
-
     .pillar-list { display: flex; flex-direction: column; gap: 1px; }
     .pillar {
       display: flex; align-items: flex-start; gap: 1.2rem;
-      padding: 1.5rem;
-      background: rgba(0,0,0,0.25);
+      padding: 1.5rem; background: #faf9f6;
       border-left: 3px solid transparent;
       transition: border-color 0.25s, background 0.25s;
     }
-    .pillar:hover { border-left-color: var(--orange); background: rgba(0,0,0,0.4); }
+    .pillar:hover { border-left-color: var(--orange); background: #f4f2ee; }
     .pillar-icon {
-      flex-shrink: 0;
-      width: 38px; height: 38px;
-      background: rgba(232,97,10,0.12);
+      flex-shrink: 0; width: 38px; height: 38px;
+      background: rgba(217,92,8,0.1);
       display: flex; align-items: center; justify-content: center;
       color: var(--orange);
     }
@@ -451,158 +415,125 @@
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 1rem; font-weight: 700;
       letter-spacing: 0.08em; text-transform: uppercase;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.3rem; color: #1c1917;
     }
-    .pillar-text { font-size: 0.85rem; font-weight: 300; line-height: 1.7; color: var(--muted); }
-
+    .pillar-text { font-size: 0.85rem; font-weight: 300; line-height: 1.7; color: #7a746c; }
     .why-right {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: rgba(232,97,10,0.12);
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: rgba(217,92,8,0.12);
     }
-    .metric-box {
-      background: var(--dark);
-      padding: 2.5rem 2rem;
-      text-align: center;
-    }
+    .metric-box { background: #faf9f6; padding: 2.5rem 2rem; text-align: center; }
     .metric-num {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 3.8rem;
-      color: var(--orange);
-      line-height: 1;
+      font-size: 3.5rem; color: var(--orange); line-height: 1;
     }
-    .metric-unit {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.8rem;
-      color: var(--orange-light);
-    }
+    .metric-unit { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--orange-light); }
     .metric-label {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.72rem; font-weight: 600;
+      font-size: 0.7rem; font-weight: 600;
       letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--muted);
-      margin-top: 0.5rem;
+      color: #7a746c; margin-top: 0.5rem;
     }
 
     /* ─── TESTIMONIALS ─── */
-    #testimonials { background: var(--black); }
-
+    #testimonials { background: #1a1a1a; padding: 7rem 4rem; }
+    #testimonials .section-heading { color: #fff; }
     .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: rgba(255,255,255,0.04);
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: rgba(255,255,255,0.04);
       margin-top: 3.5rem;
     }
-
     .testimonial {
-      background: var(--dark);
-      padding: 2.5rem;
-      position: relative;
+      background: #222; padding: 2.5rem; position: relative;
     }
     .testimonial::before {
       content: '\201C';
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 6rem;
-      color: var(--orange);
-      opacity: 0.2;
-      position: absolute;
-      top: 1rem; left: 1.5rem;
-      line-height: 1;
+      font-family: 'Bebas Neue', sans-serif; font-size: 6rem;
+      color: var(--orange); opacity: 0.2;
+      position: absolute; top: 1rem; left: 1.5rem; line-height: 1;
     }
     .testimonial-text {
-      font-size: 0.92rem; font-weight: 300;
-      line-height: 1.85; color: var(--cream);
-      margin-bottom: 1.5rem;
-      position: relative;
+      font-size: 0.9rem; font-weight: 300; line-height: 1.85;
+      color: #c9c2bb; margin-bottom: 1.5rem; position: relative;
     }
-    .testimonial-author {
-      display: flex; align-items: center; gap: 1rem;
-    }
+    .testimonial-author { display: flex; align-items: center; gap: 1rem; }
     .author-avatar {
-      width: 42px; height: 42px;
-      border-radius: 50%;
+      width: 42px; height: 42px; border-radius: 50%;
       background: linear-gradient(135deg, var(--orange), #7a3000);
       display: flex; align-items: center; justify-content: center;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.1rem; color: var(--white);
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: #fff;
       flex-shrink: 0;
     }
     .author-name {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.95rem; font-weight: 700;
-      letter-spacing: 0.06em; text-transform: uppercase;
+      letter-spacing: 0.06em; text-transform: uppercase; color: #fff;
     }
-    .author-role { font-size: 0.78rem; color: var(--muted); }
+    .author-role { font-size: 0.78rem; color: #7a746c; }
 
     /* ─── CONTACT ─── */
     #contact {
       background: var(--steel);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: start;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 6rem; align-items: start;
     }
-
     .contact-left .section-heading { margin-bottom: 1rem; }
-    .contact-left p {
+    .contact-left > p {
       font-size: 0.95rem; font-weight: 300;
-      line-height: 1.8; color: var(--muted);
-      margin-bottom: 2.5rem;
+      line-height: 1.8; color: var(--muted); margin-bottom: 2.5rem;
     }
-
     .contact-detail {
-      display: flex; align-items: center; gap: 1rem;
+      display: flex; align-items: flex-start; gap: 1rem;
       margin-bottom: 1.2rem;
     }
     .contact-detail-icon {
-      width: 40px; height: 40px;
+      width: 40px; height: 40px; min-width: 40px;
       background: rgba(232,97,10,0.12);
       display: flex; align-items: center; justify-content: center;
-      color: var(--orange); flex-shrink: 0;
+      color: var(--orange);
     }
     .contact-detail-label {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--muted);
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
     }
-    .contact-detail-value { font-size: 0.95rem; font-weight: 400; color: var(--white); }
+    .contact-detail-value {
+      font-size: 0.9rem; font-weight: 400; color: var(--white-text);
+      line-height: 1.6;
+    }
+    .contact-detail-value a {
+      color: var(--white-text); text-decoration: none;
+    }
+    .contact-detail-value a:hover { color: var(--orange); }
 
     .contact-form { display: flex; flex-direction: column; gap: 1rem; }
-
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-
     .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
     .form-group label {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--muted);
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
     }
-    .form-group input, .form-group select, .form-group textarea {
-      background: rgba(0,0,0,0.3);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: var(--white);
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: rgba(255,255,255,0.6);
+      border: 1px solid rgba(0,0,0,0.12);
+      color: var(--white-text);
       padding: 0.85rem 1rem;
-      font-family: 'Barlow', sans-serif;
-      font-size: 0.9rem;
-      outline: none;
-      transition: border-color 0.2s;
-      resize: vertical;
+      font-family: 'Barlow', sans-serif; font-size: 0.9rem;
+      outline: none; transition: border-color 0.2s; resize: vertical;
     }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-      border-color: var(--orange);
-    }
-    .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.2); }
-    .form-group select option { background: var(--steel); }
-
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--orange); background: #fff; }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(0,0,0,0.3); }
     .form-submit {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.85rem; font-weight: 700;
       letter-spacing: 0.2em; text-transform: uppercase;
-      background: var(--orange); color: var(--black);
+      background: var(--orange); color: #fff;
       border: none; padding: 1.1rem;
       cursor: pointer; transition: background 0.2s;
     }
@@ -610,21 +541,20 @@
 
     /* ─── FOOTER ─── */
     footer {
-      background: var(--black);
-      padding: 4rem;
+      background: #1a1a1a; padding: 4rem;
       border-top: 1px solid rgba(232,97,10,0.15);
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 3rem;
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
     }
-
-    .footer-brand .nav-logo { font-size: 1.8rem; margin-bottom: 1rem; display: block; }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem; letter-spacing: 0.12em;
+      color: #fff; display: block; margin-bottom: 1rem; text-decoration: none;
+    }
+    .footer-logo span { color: var(--orange); }
     .footer-brand p {
       font-size: 0.85rem; font-weight: 300;
-      line-height: 1.8; color: var(--muted);
-      max-width: 250px;
+      line-height: 1.8; color: #7a746c; max-width: 250px;
     }
-
     .footer-col h4 {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.75rem; font-weight: 700;
@@ -634,21 +564,19 @@
     .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
     .footer-col ul a {
       font-size: 0.85rem; font-weight: 300;
-      color: var(--muted); text-decoration: none;
-      transition: color 0.2s;
+      color: #7a746c; text-decoration: none; transition: color 0.2s;
     }
-    .footer-col ul a:hover { color: var(--white); }
+    .footer-col ul a:hover { color: #fff; }
 
     .footer-bottom {
-      background: var(--black);
-      padding: 1.5rem 4rem;
+      background: #131313; padding: 1.5rem 4rem;
       border-top: 1px solid rgba(255,255,255,0.04);
       display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 0.5rem;
     }
     .footer-bottom p {
-      font-size: 0.75rem; color: var(--muted);
-      font-family: 'Barlow Condensed', sans-serif;
-      letter-spacing: 0.08em;
+      font-size: 0.75rem; color: #7a746c;
+      font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.08em;
     }
     .footer-bottom span { color: var(--orange); }
 
@@ -658,42 +586,97 @@
       to   { opacity: 1; transform: translateY(0); }
     }
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
+      from { opacity: 0; } to { opacity: 1; }
     }
-
-    /* ─── SCROLL REVEAL ─── */
     .reveal {
-      opacity: 0;
-      transform: translateY(24px);
+      opacity: 0; transform: translateY(24px);
       transition: opacity 0.65s ease, transform 0.65s ease;
     }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
     /* ─── RESPONSIVE ─── */
-    @media (max-width: 900px) {
-      nav { padding: 1.2rem 2rem; }
+
+    /* Tablet */
+    @media (max-width: 1100px) {
+      nav { padding: 1.2rem 2.5rem; }
+      .nav-links { gap: 1.5rem; }
+      section { padding: 6rem 2.5rem; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      footer { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }
-      #hero { grid-template-columns: 1fr; }
+      .nav-phone { display: none; }
+      .nav-burger { display: flex; }
+      .nav-cta { display: none; }
+
+      #hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+      .hero-left {
+        padding: 7rem 1.5rem 3rem;
+        justify-content: flex-start;
+      }
+      .hero-title { font-size: clamp(3.8rem, 14vw, 6rem); }
+      .hero-sub { max-width: 100%; font-size: 0.95rem; }
+      .hero-actions { gap: 0.75rem; }
+      .btn-primary, .btn-outline { padding: 0.85rem 1.6rem; font-size: 0.8rem; }
       .hero-right { display: none; }
-      section { padding: 5rem 2rem; }
-      .services-grid, .testimonials-grid { grid-template-columns: 1fr; }
-      .projects-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+
+      section { padding: 4.5rem 1.5rem; }
+
+      .services-header {
+        flex-direction: column; align-items: flex-start;
+      }
+      .services-header p { max-width: 100%; }
+      .services-grid { grid-template-columns: 1fr; }
+      .service-card { padding: 2rem 1.5rem; }
+
+      .projects-header { flex-direction: column; align-items: flex-start; }
+      .projects-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(5, 240px);
+      }
       .project-card:first-child { grid-row: auto; }
-      #why, #contact { grid-template-columns: 1fr; }
-      footer { grid-template-columns: 1fr 1fr; }
+
+      #why {
+        grid-template-columns: 1fr;
+        gap: 3rem; padding: 4.5rem 1.5rem;
+      }
+      .why-right { grid-template-columns: 1fr 1fr; }
+
+      .testimonials-grid { grid-template-columns: 1fr; }
+      #testimonials { padding: 4.5rem 1.5rem; }
+
+      #contact {
+        grid-template-columns: 1fr;
+        gap: 3rem; padding: 4.5rem 1.5rem;
+      }
       .form-row { grid-template-columns: 1fr; }
+
+      footer {
+        grid-template-columns: 1fr;
+        padding: 3rem 1.5rem; gap: 2rem;
+      }
+      .footer-brand p { max-width: 100%; }
+      .footer-bottom { padding: 1.2rem 1.5rem; flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 420px) {
+      .hero-title { font-size: clamp(3.2rem, 16vw, 5rem); }
+      .why-right { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
   <!-- NAV -->
-  <nav>
-    <div class="nav-logo">D<span>&</span>R <span style="color:var(--white)">Constructions</span></div>
+  <nav id="mainNav">
+    <a href="#" class="nav-logo">D<span>&</span>R <span style="color:var(--white-text)">Constructions</span></a>
     <ul class="nav-links">
       <li><a href="#services">Services</a></li>
       <li><a href="#projects">Projects</a></li>
@@ -701,8 +684,27 @@
       <li><a href="#testimonials">Reviews</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <a href="#contact" class="nav-cta">Free Quote</a>
+    <div class="nav-right">
+      <a href="tel:+27734898849" class="nav-phone">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92l-.08 2z"/></svg>
+        +27 73 489 8849
+      </a>
+      <a href="#contact" class="nav-cta">Free Quote</a>
+      <button class="nav-burger" id="navBurger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#services" class="mob-link">Services</a>
+    <a href="#projects" class="mob-link">Projects</a>
+    <a href="#why" class="mob-link">About</a>
+    <a href="#testimonials" class="mob-link">Reviews</a>
+    <a href="#contact" class="mob-link">Contact</a>
+    <a href="#contact" class="mob-cta">Get a Free Quote →</a>
+  </div>
 
   <!-- HERO -->
   <section id="hero">
@@ -723,40 +725,36 @@
       <div class="hero-diagonal"></div>
       <div class="hero-graphic">
         <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Stylized construction icon -->
           <rect x="40" y="280" width="320" height="20" fill="#e8610a" opacity="0.6"/>
           <rect x="60" y="180" width="40" height="100" fill="#e8610a" opacity="0.4"/>
           <rect x="180" y="140" width="40" height="140" fill="#e8610a" opacity="0.6"/>
           <rect x="300" y="200" width="40" height="80" fill="#e8610a" opacity="0.4"/>
-          <!-- Crane arm -->
           <line x1="200" y1="60" x2="200" y2="140" stroke="#e8610a" stroke-width="4" opacity="0.8"/>
           <line x1="200" y1="60" x2="340" y2="60" stroke="#e8610a" stroke-width="4" opacity="0.8"/>
           <line x1="340" y1="60" x2="340" y2="200" stroke="#e8610a" stroke-width="2" stroke-dasharray="6,4" opacity="0.6"/>
           <circle cx="200" cy="60" r="8" fill="#e8610a" opacity="0.9"/>
           <circle cx="340" cy="200" r="6" fill="#e8610a" opacity="0.6"/>
-          <!-- Windows -->
           <rect x="68" y="200" width="12" height="12" fill="#e8610a" opacity="0.5"/>
           <rect x="68" y="222" width="12" height="12" fill="#e8610a" opacity="0.5"/>
           <rect x="188" y="160" width="12" height="12" fill="#e8610a" opacity="0.5"/>
           <rect x="188" y="185" width="12" height="12" fill="#e8610a" opacity="0.5"/>
           <rect x="188" y="210" width="12" height="12" fill="#e8610a" opacity="0.5"/>
           <rect x="308" y="218" width="12" height="12" fill="#e8610a" opacity="0.5"/>
-          <!-- Ground lines -->
           <line x1="20" y1="300" x2="380" y2="300" stroke="rgba(232,97,10,0.3)" stroke-width="1"/>
           <line x1="20" y1="320" x2="380" y2="320" stroke="rgba(232,97,10,0.15)" stroke-width="1"/>
         </svg>
       </div>
       <div class="hero-stat-strip">
         <div class="hero-stat">
-          <span class="stat-num">25<span style="font-size:1.4rem">+</span></span>
+          <span class="stat-num">25<span style="font-size:1.2rem">+</span></span>
           <span class="stat-label">Years Experience</span>
         </div>
         <div class="hero-stat">
-          <span class="stat-num">500<span style="font-size:1.4rem">+</span></span>
+          <span class="stat-num">500<span style="font-size:1.2rem">+</span></span>
           <span class="stat-label">Projects Done</span>
         </div>
         <div class="hero-stat">
-          <span class="stat-num">98<span style="font-size:1.4rem">%</span></span>
+          <span class="stat-num">98<span style="font-size:1.2rem">%</span></span>
           <span class="stat-label">Client Satisfaction</span>
         </div>
       </div>
@@ -773,6 +771,7 @@
       <span>Project Management</span><span class="dot">✦</span>
       <span>Structural Engineering</span><span class="dot">✦</span>
       <span>Interior Fit-Outs</span><span class="dot">✦</span>
+      <span>Mokopane · Limpopo</span><span class="dot">✦</span>
       <span>Residential Construction</span><span class="dot">✦</span>
       <span>Commercial Builds</span><span class="dot">✦</span>
       <span>Renovations & Remodeling</span><span class="dot">✦</span>
@@ -780,6 +779,7 @@
       <span>Project Management</span><span class="dot">✦</span>
       <span>Structural Engineering</span><span class="dot">✦</span>
       <span>Interior Fit-Outs</span><span class="dot">✦</span>
+      <span>Mokopane · Limpopo</span><span class="dot">✦</span>
     </div>
   </div>
 
@@ -881,7 +881,7 @@
         <div class="project-bg"></div>
         <div class="project-info">
           <p class="project-tag">Residential · 2024</p>
-          <p class="project-name">Riverstone Estate — 6-Bedroom Custom Home</p>
+          <p class="project-name">6-Bedroom Custom Estate Home</p>
         </div>
       </div>
 
@@ -889,7 +889,7 @@
         <div class="project-bg"></div>
         <div class="project-info">
           <p class="project-tag">Commercial · 2024</p>
-          <p class="project-name">Harbor Office Complex</p>
+          <p class="project-name">Office Complex Mokopane</p>
         </div>
       </div>
 
@@ -897,7 +897,7 @@
         <div class="project-bg"></div>
         <div class="project-info">
           <p class="project-tag">Industrial · 2023</p>
-          <p class="project-name">Eastfield Distribution Centre</p>
+          <p class="project-name">Distribution Centre Build</p>
         </div>
       </div>
 
@@ -905,7 +905,7 @@
         <div class="project-bg"></div>
         <div class="project-info">
           <p class="project-tag">Renovation · 2023</p>
-          <p class="project-name">The Grand Hotel Refurbishment</p>
+          <p class="project-name">Commercial Building Refurbishment</p>
         </div>
       </div>
 
@@ -913,7 +913,7 @@
         <div class="project-bg"></div>
         <div class="project-info">
           <p class="project-tag">Retail · 2023</p>
-          <p class="project-name">Greenview Shopping Precinct</p>
+          <p class="project-name">Retail Precinct Fit-Out</p>
         </div>
       </div>
 
@@ -925,7 +925,7 @@
     <div class="why-left">
       <p class="section-label reveal">Why Choose Us</p>
       <h2 class="section-heading reveal">Built on Trust.<br>Proven by Results.</h2>
-      <p class="reveal">For over 25 years, Dan and Ron have led every project with their names — and their reputations — on the line. That personal accountability drives everything we do.</p>
+      <p class="reveal">For over 25 years, Dan and Ron have led every project with their names — and their reputations — on the line. That personal accountability drives everything we do across Limpopo and beyond.</p>
       <div class="pillar-list">
         <div class="pillar reveal">
           <div class="pillar-icon">
@@ -979,42 +979,38 @@
   <!-- TESTIMONIALS -->
   <section id="testimonials">
     <p class="section-label reveal" style="text-align:center">Client Reviews</p>
-    <h2 class="section-heading reveal" style="text-align:center">What Our Clients Say</h2>
+    <h2 class="section-heading reveal" style="text-align:center; color:#fff;">What Our Clients Say</h2>
     <div class="testimonials-grid">
-
       <div class="testimonial reveal">
-        <p class="testimonial-text">Dan & Ron delivered our new headquarters on time and under budget. The quality of the build exceeded every expectation. Their team communicated with us at every step — refreshing in this industry.</p>
+        <p class="testimonial-text">Dan & Ron delivered our new office complex on time and under budget. The quality of the build exceeded every expectation. Their team communicated with us at every step — refreshing in this industry.</p>
         <div class="testimonial-author">
           <div class="author-avatar">MK</div>
           <div>
-            <p class="author-name">Michael Kerr</p>
-            <p class="author-role">CEO, Kerr Logistics Group</p>
+            <p class="author-name">Michael Khumalo</p>
+            <p class="author-role">Director, Khumalo Property Group</p>
           </div>
         </div>
       </div>
-
       <div class="testimonial reveal">
-        <p class="testimonial-text">We've used Dan & Ron for three major residential developments now. Consistent quality, professional crews, and Dan personally walked through the final inspection. That's service you just can't find anywhere else.</p>
+        <p class="testimonial-text">We've used Dan & Ron for three major residential developments in Limpopo now. Consistent quality, professional crews, and Dan personally walked through every final inspection. Outstanding service.</p>
         <div class="testimonial-author">
-          <div class="author-avatar">SL</div>
+          <div class="author-avatar">SN</div>
           <div>
-            <p class="author-name">Sandra Liu</p>
-            <p class="author-role">Director, Apex Property Group</p>
+            <p class="author-name">Sarah Nkosi</p>
+            <p class="author-role">Developer, Apex Homes SA</p>
           </div>
         </div>
       </div>
-
       <div class="testimonial reveal">
-        <p class="testimonial-text">Our warehouse renovation was a complex project with a tight window. Ron's team handled every challenge with skill and composure. The result is fantastic — we're already planning phase two with them.</p>
+        <p class="testimonial-text">Our warehouse renovation had a very tight window. Ron's team handled every challenge with skill and composure. The result is fantastic — we're already planning phase two with them.</p>
         <div class="testimonial-author">
-          <div class="author-avatar">JT</div>
+          <div class="author-avatar">JM</div>
           <div>
-            <p class="author-name">James Tran</p>
-            <p class="author-role">Operations Manager, TechStore AU</p>
+            <p class="author-name">James Mahlangu</p>
+            <p class="author-role">Operations Manager, TechStore Polokwane</p>
           </div>
         </div>
       </div>
-
     </div>
   </section>
 
@@ -1031,7 +1027,10 @@
         </div>
         <div>
           <p class="contact-detail-label">Phone</p>
-          <p class="contact-detail-value">(02) 9000 1234</p>
+          <div class="contact-detail-value">
+            <a href="tel:+27734898849">+27 73 489 8849</a><br>
+            <a href="tel:+27728280650">+27 72 828 0650</a>
+          </div>
         </div>
       </div>
 
@@ -1041,7 +1040,9 @@
         </div>
         <div>
           <p class="contact-detail-label">Email</p>
-          <p class="contact-detail-value">info@danronconstructions.com.au</p>
+          <div class="contact-detail-value">
+            <a href="mailto:Danronconstraction24@gmail.com">Danronconstraction24@gmail.com</a>
+          </div>
         </div>
       </div>
 
@@ -1051,7 +1052,7 @@
         </div>
         <div>
           <p class="contact-detail-label">Office</p>
-          <p class="contact-detail-value">14 Industrial Ave, Silverwater NSW 2128</p>
+          <div class="contact-detail-value">77D Winnie Mandela Str<br>Ga-Mokaba, Mokopane, 0601</div>
         </div>
       </div>
     </div>
@@ -1060,20 +1061,20 @@
       <div class="form-row">
         <div class="form-group">
           <label>First Name</label>
-          <input type="text" placeholder="John"/>
+          <input type="text" placeholder="Thabo"/>
         </div>
         <div class="form-group">
           <label>Last Name</label>
-          <input type="text" placeholder="Smith"/>
+          <input type="text" placeholder="Dlamini"/>
         </div>
       </div>
       <div class="form-group">
         <label>Email Address</label>
-        <input type="email" placeholder="john@example.com"/>
+        <input type="email" placeholder="thabo@example.com"/>
       </div>
       <div class="form-group">
         <label>Phone Number</label>
-        <input type="tel" placeholder="0400 000 000"/>
+        <input type="tel" placeholder="+27 00 000 0000"/>
       </div>
       <div class="form-group">
         <label>Project Type</label>
@@ -1089,17 +1090,17 @@
       </div>
       <div class="form-group">
         <label>Tell Us About Your Project</label>
-        <textarea rows="5" placeholder="Describe your project, timeline, and any specific requirements..."></textarea>
+        <textarea rows="5" placeholder="Describe your project, location, timeline, and any specific requirements..."></textarea>
       </div>
-      <button class="form-submit" onclick="alert('Thank you! We will be in touch within one business day.')">Send Enquiry →</button>
+      <button class="form-submit" onclick="alert('Thank you! We will be in touch within one business day.\n\nYou can also reach us directly:\n+27 73 489 8849\n+27 72 828 0650')">Send Enquiry →</button>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
     <div class="footer-brand">
-      <span class="nav-logo">D<span style="color:var(--orange)">&</span>R Constructions</span>
-      <p>Building excellence across residential, commercial, and industrial sectors since 1999. Every project, our name is on the line.</p>
+      <a href="#" class="footer-logo">D<span>&</span>R Constructions</a>
+      <p>Building excellence across residential, commercial, and industrial sectors. Based in Mokopane, serving Limpopo and beyond.</p>
     </div>
     <div class="footer-col">
       <h4>Services</h4>
@@ -1117,23 +1118,24 @@
         <li><a href="#why">About Us</a></li>
         <li><a href="#projects">Our Projects</a></li>
         <li><a href="#testimonials">Reviews</a></li>
-        <li><a href="#">Careers</a></li>
-        <li><a href="#">Safety</a></li>
+        <li><a href="#contact">Careers</a></li>
+        <li><a href="#contact">Safety</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4>Contact</h4>
       <ul>
-        <li><a href="tel:0290001234">(02) 9000 1234</a></li>
-        <li><a href="mailto:info@danronconstructions.com.au">Email Us</a></li>
-        <li><a href="#">Get a Quote</a></li>
-        <li><a href="#">Silverwater NSW</a></li>
+        <li><a href="tel:+27734898849">+27 73 489 8849</a></li>
+        <li><a href="tel:+27728280650">+27 72 828 0650</a></li>
+        <li><a href="mailto:Danronconstraction24@gmail.com">Email Us</a></li>
+        <li><a href="#contact">Get a Quote</a></li>
+        <li><a href="#contact">Mokopane, 0601</a></li>
       </ul>
     </div>
   </footer>
   <div class="footer-bottom">
-    <p>© 2025 <span>Dan & Ron Constructions</span>. All rights reserved. ABN 12 345 678 901</p>
-    <p>Licensed Builder · Fully Insured · <span>Lic. No. 123456C</span></p>
+    <p>© 2025 <span>Dan & Ron Constructions</span>. All rights reserved.</p>
+    <p>77D Winnie Mandela Str, Ga-Mokaba, Mokopane · <span>Licensed & Insured</span></p>
   </div>
 
   <script>
@@ -1146,7 +1148,7 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
     reveals.forEach(el => observer.observe(el));
 
     // Nav scroll effect
@@ -1155,6 +1157,21 @@
       nav.style.borderBottomColor = window.scrollY > 60
         ? 'rgba(232,97,10,0.3)'
         : 'rgba(232,97,10,0.15)';
+    });
+
+    // Mobile menu
+    const burger = document.getElementById('navBurger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    burger.addEventListener('click', () => {
+      burger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+    // Close on link click
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        burger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+      });
     });
   </script>
 </body>
