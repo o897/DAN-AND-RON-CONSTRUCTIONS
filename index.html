@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dan & Ron Constructions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0d0d0d;
+      --dark: #141414;
+      --steel: #1e2228;
+      --mid: #2c3140;
+      --orange: #e8610a;
+      --orange-light: #ff7b25;
+      --cream: #f0ead8;
+      --muted: #8a8f99;
+      --white: #f8f6f0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 400;
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 4rem;
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(232,97,10,0.15);
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.12em;
+      color: var(--white);
+    }
+    .nav-logo span { color: var(--orange); }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--orange); }
+
+    .nav-cta {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--orange);
+      padding: 0.6rem 1.4rem;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--orange-light); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 10rem 4rem 6rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.3s forwards;
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 9vw, 9rem);
+      line-height: 0.92;
+      letter-spacing: 0.02em;
+      color: var(--white);
+      opacity: 0;
+      animation: fadeUp 0.9s 0.5s forwards;
+    }
+    .hero-title .accent { color: var(--orange); display: block; }
+
+    .hero-sub {
+      margin-top: 2rem;
+      max-width: 380px;
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--muted);
+      opacity: 0;
+      animation: fadeUp 0.9s 0.7s forwards;
+    }
+
+    .hero-actions {
+      display: flex; gap: 1rem; margin-top: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.9s forwards;
+    }
+
+    .btn-primary {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--black); background: var(--orange);
+      padding: 1rem 2.2rem; text-decoration: none;
+      border: 2px solid var(--orange);
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-primary:hover { background: transparent; color: var(--orange); }
+
+    .btn-outline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--white); background: transparent;
+      padding: 1rem 2.2rem; text-decoration: none;
+      border: 2px solid rgba(255,255,255,0.2);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--white); }
+
+    /* hero right – large image placeholder with geometric overlay */
+    .hero-right {
+      position: relative;
+      background:
+        linear-gradient(135deg, rgba(232,97,10,0.08) 0%, transparent 60%),
+        linear-gradient(to bottom, #1e2228, #0d0d0d);
+      overflow: hidden;
+    }
+
+    .hero-right::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 59px,
+          rgba(232,97,10,0.07) 59px,
+          rgba(232,97,10,0.07) 60px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 59px,
+          rgba(232,97,10,0.07) 59px,
+          rgba(232,97,10,0.07) 60px
+        );
+    }
+
+    .hero-graphic {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70%; max-width: 420px;
+      opacity: 0;
+      animation: fadeIn 1.2s 0.6s forwards;
+    }
+
+    .hero-stat-strip {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      display: flex;
+      border-top: 1px solid rgba(232,97,10,0.2);
+    }
+    .hero-stat {
+      flex: 1;
+      padding: 1.5rem;
+      border-right: 1px solid rgba(232,97,10,0.1);
+      text-align: center;
+    }
+    .hero-stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.4rem;
+      color: var(--orange);
+      display: block;
+    }
+    .stat-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* diagonal accent */
+    .hero-diagonal {
+      position: absolute;
+      top: 0; right: 0;
+      width: 0; height: 0;
+      border-left: 80px solid transparent;
+      border-top: 80px solid var(--orange);
+      z-index: 3;
+    }
+
+    /* ─── MARQUEE ─── */
+    .marquee-strip {
+      background: var(--orange);
+      padding: 0.75rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .marquee-inner {
+      display: inline-block;
+      animation: marquee 22s linear infinite;
+    }
+    .marquee-inner span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      color: var(--black);
+      padding: 0 3rem;
+    }
+    .marquee-inner span.dot { padding: 0; opacity: 0.5; }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ─── SECTION COMMONS ─── */
+    section { padding: 7rem 4rem; }
+
+    .section-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1rem;
+    }
+    .section-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 5vw, 5rem);
+      line-height: 1;
+      letter-spacing: 0.03em;
+    }
+
+    /* ─── SERVICES ─── */
+    #services { background: var(--dark); }
+
+    .services-header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 4rem;
+      gap: 2rem;
+    }
+    .services-header p {
+      max-width: 340px;
+      font-size: 0.95rem; font-weight: 300;
+      line-height: 1.8; color: var(--muted);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(232,97,10,0.15);
+    }
+
+    .service-card {
+      background: var(--steel);
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+    .service-card:hover { background: #252b36; }
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--orange);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+    .service-card:hover::after { transform: scaleX(1); }
+
+    .service-icon {
+      width: 48px; height: 48px;
+      margin-bottom: 1.5rem;
+      color: var(--orange);
+    }
+    .service-num {
+      position: absolute; top: 1.5rem; right: 1.8rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem; color: rgba(232,97,10,0.07);
+      line-height: 1; pointer-events: none;
+    }
+    .service-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.35rem; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .service-desc {
+      font-size: 0.88rem; font-weight: 300;
+      line-height: 1.75; color: var(--muted);
+    }
+
+    /* ─── PROJECTS ─── */
+    #projects { background: var(--black); }
+
+    .projects-header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 3.5rem;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 280px 280px;
+      gap: 1px;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .project-card {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .project-card:first-child { grid-row: 1 / 3; }
+
+    .project-bg {
+      position: absolute; inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.5s ease;
+    }
+    .project-card:hover .project-bg { transform: scale(1.07); }
+
+    /* Dark overlay on each photo for readability */
+    .project-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.35);
+      transition: background 0.35s;
+    }
+    .project-card:hover .project-bg::after { background: rgba(0,0,0,0.2); }
+
+    .p1 .project-bg { background-image: url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=900&auto=format&fit=crop'); }
+    .p2 .project-bg { background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=700&auto=format&fit=crop'); }
+    .p3 .project-bg { background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=700&auto=format&fit=crop'); }
+    .p4 .project-bg { background-image: url('https://images.unsplash.com/photo-1590274853856-f22d5ee3d228?w=700&auto=format&fit=crop'); }
+    .p5 .project-bg { background-image: url('https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=700&auto=format&fit=crop'); }
+
+    .project-pattern { display: none; }
+
+    .project-info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 1.5rem 1.8rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.3) 70%, transparent 100%);
+      z-index: 2;
+      transition: padding 0.3s;
+    }
+    .project-card:hover .project-info { padding-bottom: 2rem; }
+
+    .project-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.35rem;
+    }
+    .project-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem; letter-spacing: 0.05em;
+    }
+
+
+
+    /* ─── WHY US ─── */
+    #why {
+      background: var(--steel);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .why-left .section-heading { margin-bottom: 1.5rem; }
+    .why-left p {
+      font-size: 1rem; font-weight: 300;
+      line-height: 1.85; color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    .pillar-list { display: flex; flex-direction: column; gap: 1px; }
+    .pillar {
+      display: flex; align-items: flex-start; gap: 1.2rem;
+      padding: 1.5rem;
+      background: rgba(0,0,0,0.25);
+      border-left: 3px solid transparent;
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .pillar:hover { border-left-color: var(--orange); background: rgba(0,0,0,0.4); }
+    .pillar-icon {
+      flex-shrink: 0;
+      width: 38px; height: 38px;
+      background: rgba(232,97,10,0.12);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--orange);
+    }
+    .pillar-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+    .pillar-text { font-size: 0.85rem; font-weight: 300; line-height: 1.7; color: var(--muted); }
+
+    .why-right {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(232,97,10,0.12);
+    }
+    .metric-box {
+      background: var(--dark);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    .metric-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.8rem;
+      color: var(--orange);
+      line-height: 1;
+    }
+    .metric-unit {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--orange-light);
+    }
+    .metric-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+    /* ─── TESTIMONIALS ─── */
+    #testimonials { background: var(--black); }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.04);
+      margin-top: 3.5rem;
+    }
+
+    .testimonial {
+      background: var(--dark);
+      padding: 2.5rem;
+      position: relative;
+    }
+    .testimonial::before {
+      content: '\201C';
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 6rem;
+      color: var(--orange);
+      opacity: 0.2;
+      position: absolute;
+      top: 1rem; left: 1.5rem;
+      line-height: 1;
+    }
+    .testimonial-text {
+      font-size: 0.92rem; font-weight: 300;
+      line-height: 1.85; color: var(--cream);
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    .testimonial-author {
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .author-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--orange), #7a3000);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem; color: var(--white);
+      flex-shrink: 0;
+    }
+    .author-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.95rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .author-role { font-size: 0.78rem; color: var(--muted); }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      background: var(--steel);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+
+    .contact-left .section-heading { margin-bottom: 1rem; }
+    .contact-left p {
+      font-size: 0.95rem; font-weight: 300;
+      line-height: 1.8; color: var(--muted);
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-detail {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+    .contact-detail-icon {
+      width: 40px; height: 40px;
+      background: rgba(232,97,10,0.12);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--orange); flex-shrink: 0;
+    }
+    .contact-detail-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .contact-detail-value { font-size: 0.95rem; font-weight: 400; color: var(--white); }
+
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--white);
+      padding: 0.85rem 1rem;
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+      resize: vertical;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--orange);
+    }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.2); }
+    .form-group select option { background: var(--steel); }
+
+    .form-submit {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      background: var(--orange); color: var(--black);
+      border: none; padding: 1.1rem;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .form-submit:hover { background: var(--orange-light); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--black);
+      padding: 4rem;
+      border-top: 1px solid rgba(232,97,10,0.15);
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .footer-brand .nav-logo { font-size: 1.8rem; margin-bottom: 1rem; display: block; }
+    .footer-brand p {
+      font-size: 0.85rem; font-weight: 300;
+      line-height: 1.8; color: var(--muted);
+      max-width: 250px;
+    }
+
+    .footer-col h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col ul a {
+      font-size: 0.85rem; font-weight: 300;
+      color: var(--muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-col ul a:hover { color: var(--white); }
+
+    .footer-bottom {
+      background: var(--black);
+      padding: 1.5rem 4rem;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-bottom p {
+      font-size: 0.75rem; color: var(--muted);
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 0.08em;
+    }
+    .footer-bottom span { color: var(--orange); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .nav-links { display: none; }
+      #hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      section { padding: 5rem 2rem; }
+      .services-grid, .testimonials-grid { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+      .project-card:first-child { grid-row: auto; }
+      #why, #contact { grid-template-columns: 1fr; }
+      footer { grid-template-columns: 1fr 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">D<span>&</span>R <span style="color:var(--white)">Constructions</span></div>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#why">About</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Free Quote</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Licensed · Bonded · Insured</p>
+      <h1 class="hero-title">
+        Build<br>
+        <span class="accent">Bold.</span>
+        Build<br>Right.
+      </h1>
+      <p class="hero-sub">Dan & Ron Constructions delivers exceptional results across residential, commercial, and industrial projects — on time, on budget, built to last.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">View Our Work</a>
+        <a href="#contact" class="btn-outline">Get a Quote</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-diagonal"></div>
+      <div class="hero-graphic">
+        <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Stylized construction icon -->
+          <rect x="40" y="280" width="320" height="20" fill="#e8610a" opacity="0.6"/>
+          <rect x="60" y="180" width="40" height="100" fill="#e8610a" opacity="0.4"/>
+          <rect x="180" y="140" width="40" height="140" fill="#e8610a" opacity="0.6"/>
+          <rect x="300" y="200" width="40" height="80" fill="#e8610a" opacity="0.4"/>
+          <!-- Crane arm -->
+          <line x1="200" y1="60" x2="200" y2="140" stroke="#e8610a" stroke-width="4" opacity="0.8"/>
+          <line x1="200" y1="60" x2="340" y2="60" stroke="#e8610a" stroke-width="4" opacity="0.8"/>
+          <line x1="340" y1="60" x2="340" y2="200" stroke="#e8610a" stroke-width="2" stroke-dasharray="6,4" opacity="0.6"/>
+          <circle cx="200" cy="60" r="8" fill="#e8610a" opacity="0.9"/>
+          <circle cx="340" cy="200" r="6" fill="#e8610a" opacity="0.6"/>
+          <!-- Windows -->
+          <rect x="68" y="200" width="12" height="12" fill="#e8610a" opacity="0.5"/>
+          <rect x="68" y="222" width="12" height="12" fill="#e8610a" opacity="0.5"/>
+          <rect x="188" y="160" width="12" height="12" fill="#e8610a" opacity="0.5"/>
+          <rect x="188" y="185" width="12" height="12" fill="#e8610a" opacity="0.5"/>
+          <rect x="188" y="210" width="12" height="12" fill="#e8610a" opacity="0.5"/>
+          <rect x="308" y="218" width="12" height="12" fill="#e8610a" opacity="0.5"/>
+          <!-- Ground lines -->
+          <line x1="20" y1="300" x2="380" y2="300" stroke="rgba(232,97,10,0.3)" stroke-width="1"/>
+          <line x1="20" y1="320" x2="380" y2="320" stroke="rgba(232,97,10,0.15)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="hero-stat-strip">
+        <div class="hero-stat">
+          <span class="stat-num">25<span style="font-size:1.4rem">+</span></span>
+          <span class="stat-label">Years Experience</span>
+        </div>
+        <div class="hero-stat">
+          <span class="stat-num">500<span style="font-size:1.4rem">+</span></span>
+          <span class="stat-label">Projects Done</span>
+        </div>
+        <div class="hero-stat">
+          <span class="stat-num">98<span style="font-size:1.4rem">%</span></span>
+          <span class="stat-label">Client Satisfaction</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-strip">
+    <div class="marquee-inner">
+      <span>Residential Construction</span><span class="dot">✦</span>
+      <span>Commercial Builds</span><span class="dot">✦</span>
+      <span>Renovations & Remodeling</span><span class="dot">✦</span>
+      <span>Industrial Projects</span><span class="dot">✦</span>
+      <span>Project Management</span><span class="dot">✦</span>
+      <span>Structural Engineering</span><span class="dot">✦</span>
+      <span>Interior Fit-Outs</span><span class="dot">✦</span>
+      <span>Residential Construction</span><span class="dot">✦</span>
+      <span>Commercial Builds</span><span class="dot">✦</span>
+      <span>Renovations & Remodeling</span><span class="dot">✦</span>
+      <span>Industrial Projects</span><span class="dot">✦</span>
+      <span>Project Management</span><span class="dot">✦</span>
+      <span>Structural Engineering</span><span class="dot">✦</span>
+      <span>Interior Fit-Outs</span><span class="dot">✦</span>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="services-header">
+      <div>
+        <p class="section-label reveal">What We Build</p>
+        <h2 class="section-heading reveal">Our Services</h2>
+      </div>
+      <p class="reveal">From the first blueprint to the final coat of paint, Dan & Ron Constructions handles every phase with expert precision and uncompromising quality.</p>
+    </div>
+    <div class="services-grid">
+
+      <div class="service-card reveal">
+        <div class="service-num">01</div>
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 42V22L24 8L42 22V42" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18 42V30H30V42" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h3 class="service-title">Residential Construction</h3>
+        <p class="service-desc">Custom homes and multi-family housing built with craftsmanship and care. We turn architectural dreams into solid, livable reality.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">02</div>
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="14" width="40" height="28" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M4 14L24 4L44 14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="14" y="28" width="8" height="14" stroke="currentColor" stroke-width="2"/>
+          <rect x="26" y="20" width="8" height="8" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <h3 class="service-title">Commercial Projects</h3>
+        <p class="service-desc">Offices, retail spaces, and hospitality venues designed for function and longevity — delivered on schedule and within budget.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">03</div>
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="20" width="40" height="22" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+          <rect x="12" y="8" width="24" height="12" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+          <line x1="4" y1="30" x2="44" y2="30" stroke="currentColor" stroke-width="2"/>
+          <line x1="16" y1="30" x2="16" y2="42" stroke="currentColor" stroke-width="2"/>
+          <line x1="32" y1="30" x2="32" y2="42" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <h3 class="service-title">Industrial Construction</h3>
+        <p class="service-desc">Warehouses, factories, and distribution centres built to handle heavy demands with robust materials and engineering expertise.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">04</div>
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 40L20 28M28 20L40 8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M38 6L42 10L34 18L26 26L22 22L30 14L38 6Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M6 42L10 34L14 38L6 42Z" fill="currentColor"/>
+        </svg>
+        <h3 class="service-title">Renovations & Fit-Outs</h3>
+        <p class="service-desc">Breathing new life into existing structures. From full gut renovations to interior fit-outs, we deliver seamless transformations.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">05</div>
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="18" stroke="currentColor" stroke-width="2.5"/>
+          <path d="M24 12V24L32 32" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="24" cy="24" r="3" fill="currentColor"/>
+        </svg>
+        <h3 class="service-title">Project Management</h3>
+        <p class="service-desc">End-to-end oversight from concept to completion. Dedicated project managers keep timelines tight and communication clear.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">06</div>
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 38L6 42H42L38 38" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="10" y="18" width="28" height="20" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M10 18L24 8L38 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18 30V38M30 30V38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <h3 class="service-title">Structural Engineering</h3>
+        <p class="service-desc">In-house engineering capabilities ensure every structure is safe, code-compliant, and built to withstand the test of time.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="projects-header">
+      <div>
+        <p class="section-label reveal">Selected Work</p>
+        <h2 class="section-heading reveal">Recent Projects</h2>
+      </div>
+      <a href="#contact" class="btn-outline reveal">Start Your Project →</a>
+    </div>
+    <div class="projects-grid reveal">
+
+      <div class="project-card p1">
+        <div class="project-bg"></div>
+        <div class="project-info">
+          <p class="project-tag">Residential · 2024</p>
+          <p class="project-name">Riverstone Estate — 6-Bedroom Custom Home</p>
+        </div>
+      </div>
+
+      <div class="project-card p2">
+        <div class="project-bg"></div>
+        <div class="project-info">
+          <p class="project-tag">Commercial · 2024</p>
+          <p class="project-name">Harbor Office Complex</p>
+        </div>
+      </div>
+
+      <div class="project-card p3">
+        <div class="project-bg"></div>
+        <div class="project-info">
+          <p class="project-tag">Industrial · 2023</p>
+          <p class="project-name">Eastfield Distribution Centre</p>
+        </div>
+      </div>
+
+      <div class="project-card p4">
+        <div class="project-bg"></div>
+        <div class="project-info">
+          <p class="project-tag">Renovation · 2023</p>
+          <p class="project-name">The Grand Hotel Refurbishment</p>
+        </div>
+      </div>
+
+      <div class="project-card p5">
+        <div class="project-bg"></div>
+        <div class="project-info">
+          <p class="project-tag">Retail · 2023</p>
+          <p class="project-name">Greenview Shopping Precinct</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section id="why">
+    <div class="why-left">
+      <p class="section-label reveal">Why Choose Us</p>
+      <h2 class="section-heading reveal">Built on Trust.<br>Proven by Results.</h2>
+      <p class="reveal">For over 25 years, Dan and Ron have led every project with their names — and their reputations — on the line. That personal accountability drives everything we do.</p>
+      <div class="pillar-list">
+        <div class="pillar reveal">
+          <div class="pillar-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <p class="pillar-title">On-Time Delivery</p>
+            <p class="pillar-text">97% of our projects are completed on or ahead of schedule. Deadlines are commitments, not suggestions.</p>
+          </div>
+        </div>
+        <div class="pillar reveal">
+          <div class="pillar-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <p class="pillar-title">Quality Guaranteed</p>
+            <p class="pillar-text">All work is backed by our quality assurance guarantee and full compliance with local building codes and standards.</p>
+          </div>
+        </div>
+        <div class="pillar reveal">
+          <div class="pillar-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div>
+            <p class="pillar-title">Transparent Pricing</p>
+            <p class="pillar-text">No hidden fees, no surprise invoices. Detailed quotes upfront with clear breakdowns of every cost involved.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="why-right reveal">
+      <div class="metric-box">
+        <div class="metric-num">25<span class="metric-unit">+</span></div>
+        <p class="metric-label">Years in Business</p>
+      </div>
+      <div class="metric-box">
+        <div class="metric-num">500<span class="metric-unit">+</span></div>
+        <p class="metric-label">Projects Completed</p>
+      </div>
+      <div class="metric-box">
+        <div class="metric-num">120<span class="metric-unit">+</span></div>
+        <p class="metric-label">Team Members</p>
+      </div>
+      <div class="metric-box">
+        <div class="metric-num">98<span class="metric-unit">%</span></div>
+        <p class="metric-label">Client Satisfaction</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <p class="section-label reveal" style="text-align:center">Client Reviews</p>
+    <h2 class="section-heading reveal" style="text-align:center">What Our Clients Say</h2>
+    <div class="testimonials-grid">
+
+      <div class="testimonial reveal">
+        <p class="testimonial-text">Dan & Ron delivered our new headquarters on time and under budget. The quality of the build exceeded every expectation. Their team communicated with us at every step — refreshing in this industry.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">MK</div>
+          <div>
+            <p class="author-name">Michael Kerr</p>
+            <p class="author-role">CEO, Kerr Logistics Group</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial reveal">
+        <p class="testimonial-text">We've used Dan & Ron for three major residential developments now. Consistent quality, professional crews, and Dan personally walked through the final inspection. That's service you just can't find anywhere else.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">SL</div>
+          <div>
+            <p class="author-name">Sandra Liu</p>
+            <p class="author-role">Director, Apex Property Group</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial reveal">
+        <p class="testimonial-text">Our warehouse renovation was a complex project with a tight window. Ron's team handled every challenge with skill and composure. The result is fantastic — we're already planning phase two with them.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">JT</div>
+          <div>
+            <p class="author-name">James Tran</p>
+            <p class="author-role">Operations Manager, TechStore AU</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-left">
+      <p class="section-label reveal">Let's Talk</p>
+      <h2 class="section-heading reveal">Start Your Project Today</h2>
+      <p class="reveal">Ready to build? Get in touch with our team for a free, no-obligation consultation and quote. We'll respond within one business day.</p>
+
+      <div class="contact-detail reveal">
+        <div class="contact-detail-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92l-.08 2z"/></svg>
+        </div>
+        <div>
+          <p class="contact-detail-label">Phone</p>
+          <p class="contact-detail-value">(02) 9000 1234</p>
+        </div>
+      </div>
+
+      <div class="contact-detail reveal">
+        <div class="contact-detail-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <p class="contact-detail-label">Email</p>
+          <p class="contact-detail-value">info@danronconstructions.com.au</p>
+        </div>
+      </div>
+
+      <div class="contact-detail reveal">
+        <div class="contact-detail-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <p class="contact-detail-label">Office</p>
+          <p class="contact-detail-value">14 Industrial Ave, Silverwater NSW 2128</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form reveal">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="John"/>
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Smith"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="john@example.com"/>
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" placeholder="0400 000 000"/>
+      </div>
+      <div class="form-group">
+        <label>Project Type</label>
+        <select>
+          <option value="" disabled selected>Select a service...</option>
+          <option>Residential Construction</option>
+          <option>Commercial Project</option>
+          <option>Industrial Construction</option>
+          <option>Renovation / Fit-Out</option>
+          <option>Project Management</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Tell Us About Your Project</label>
+        <textarea rows="5" placeholder="Describe your project, timeline, and any specific requirements..."></textarea>
+      </div>
+      <button class="form-submit" onclick="alert('Thank you! We will be in touch within one business day.')">Send Enquiry →</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">
+      <span class="nav-logo">D<span style="color:var(--orange)">&</span>R Constructions</span>
+      <p>Building excellence across residential, commercial, and industrial sectors since 1999. Every project, our name is on the line.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Residential</a></li>
+        <li><a href="#services">Commercial</a></li>
+        <li><a href="#services">Industrial</a></li>
+        <li><a href="#services">Renovations</a></li>
+        <li><a href="#services">Project Mgmt</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#why">About Us</a></li>
+        <li><a href="#projects">Our Projects</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Safety</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:0290001234">(02) 9000 1234</a></li>
+        <li><a href="mailto:info@danronconstructions.com.au">Email Us</a></li>
+        <li><a href="#">Get a Quote</a></li>
+        <li><a href="#">Silverwater NSW</a></li>
+      </ul>
+    </div>
+  </footer>
+  <div class="footer-bottom">
+    <p>© 2025 <span>Dan & Ron Constructions</span>. All rights reserved. ABN 12 345 678 901</p>
+    <p>Licensed Builder · Fully Insured · <span>Lic. No. 123456C</span></p>
+  </div>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 60);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+
+    // Nav scroll effect
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      nav.style.borderBottomColor = window.scrollY > 60
+        ? 'rgba(232,97,10,0.3)'
+        : 'rgba(232,97,10,0.15)';
+    });
+  </script>
+</body>
+</html>
