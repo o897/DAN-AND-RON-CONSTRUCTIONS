@@ -1061,24 +1061,24 @@
       <div class="form-row">
         <div class="form-group">
           <label>First Name</label>
-          <input type="text" placeholder="Thabo"/>
+          <input id="firstName" type="text" placeholder="Thabo"/>
         </div>
         <div class="form-group">
           <label>Last Name</label>
-          <input type="text" placeholder="Dlamini"/>
+          <input id="lastName" type="text" placeholder="Dlamini"/>
         </div>
       </div>
       <div class="form-group">
         <label>Email Address</label>
-        <input type="email" placeholder="thabo@example.com"/>
+        <input id="email" type="email" placeholder="thabo@example.com"/>
       </div>
       <div class="form-group">
         <label>Phone Number</label>
-        <input type="tel" placeholder="+27 00 000 0000"/>
+        <input id="phone" type="tel" placeholder="+27 00 000 0000"/>
       </div>
       <div class="form-group">
         <label>Project Type</label>
-        <select>
+        <select id="projectType">
           <option value="" disabled selected>Select a service...</option>
           <option>Residential Construction</option>
           <option>Commercial Project</option>
@@ -1090,9 +1090,10 @@
       </div>
       <div class="form-group">
         <label>Tell Us About Your Project</label>
-        <textarea rows="5" placeholder="Describe your project, location, timeline, and any specific requirements..."></textarea>
+        <textarea id="message" rows="5" placeholder="Describe your project, location, timeline, and any specific requirements..."></textarea>
       </div>
-      <button class="form-submit" onclick="alert('Thank you! We will be in touch within one business day.\n\nYou can also reach us directly:\n+27 73 489 8849\n+27 72 828 0650')">Send Enquiry →</button>
+      <button class="form-submit" id="submitBtn" onclick="sendEnquiry()">Send Enquiry →</button>
+      <p id="formStatus" style="font-size:0.85rem; margin-top:0.5rem; min-height:1.2em;"></p>
     </div>
   </section>
 
@@ -1139,7 +1140,73 @@
   </div>
 
   <script>
-    // Scroll reveal
+    // ─── WEB3FORMS SETUP ───
+    // This key is tied to Danronconstraction24@gmail.com
+    // First submission will send a one-time "Allow" confirmation to that Gmail
+    const WEB3FORMS_ACCESS_KEY = 'YOUR_ACCESS_KEY'; // Get free key at web3forms.com/register
+
+    async function sendEnquiry() {
+      const btn    = document.getElementById('submitBtn');
+      const status = document.getElementById('formStatus');
+
+      const firstName   = document.getElementById('firstName').value.trim();
+      const lastName    = document.getElementById('lastName').value.trim();
+      const email       = document.getElementById('email').value.trim();
+      const phone       = document.getElementById('phone').value.trim();
+      const projectType = document.getElementById('projectType').value;
+      const message     = document.getElementById('message').value.trim();
+
+      // Basic validation
+      if (!firstName || !lastName || !email || !projectType || !message) {
+        status.style.color = '#d95c08';
+        status.textContent = 'Please fill in all required fields.';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      status.style.color = '#7a746c';
+      status.textContent = '';
+
+      const formData = {
+        access_key: WEB3FORMS_ACCESS_KEY,
+        subject:    `New Enquiry: ${projectType} — ${firstName} ${lastName}`,
+        from_name:  `${firstName} ${lastName}`,
+        email:      email,
+        phone:      phone || 'Not provided',
+        project_type: projectType,
+        message:    message,
+      };
+
+      try {
+        const res  = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          status.style.color = '#2e7d32';
+          status.textContent = '✓ Enquiry sent! We\'ll be in touch within one business day.';
+          btn.textContent = 'Sent ✓';
+          ['firstName','lastName','email','phone','message'].forEach(id => {
+            document.getElementById(id).value = '';
+          });
+          document.getElementById('projectType').selectedIndex = 0;
+        } else {
+          throw new Error(data.message);
+        }
+      } catch (err) {
+        console.error('Web3Forms error:', err);
+        status.style.color = '#c62828';
+        status.textContent = 'Something went wrong. Please try again or call us directly.';
+        btn.disabled = false;
+        btn.textContent = 'Send Enquiry →';
+      }
+    }
+
+    // ─── SCROLL REVEAL ───
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry, i) => {
