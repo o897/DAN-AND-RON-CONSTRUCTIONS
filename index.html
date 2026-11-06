@@ -206,32 +206,9 @@
     .btn-outline:hover { border-color: #1c1917; }
 
     /* Hero Right */
-    .hero-right {
-      position: relative;
-      background: linear-gradient(135deg, rgba(217,92,8,0.06) 0%, transparent 60%),
-                  linear-gradient(to bottom, #ede9e1, #faf9f6);
-      overflow: hidden;
-    }
-    .hero-right::before {
-      content: '';
-      position: absolute; inset: 0;
-      background:
-        repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(217,92,8,0.08) 59px,rgba(217,92,8,0.08) 60px),
-        repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(217,92,8,0.08) 59px,rgba(217,92,8,0.08) 60px);
-    }
-    .hero-graphic {
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 70%; max-width: 420px;
-      opacity: 0; animation: fadeIn 1.2s 0.6s forwards;
-    }
-    .hero-diagonal {
-      position: absolute; top: 0; right: 0;
-      width: 0; height: 0;
-      border-left: 80px solid transparent;
-      border-top: 80px solid var(--orange);
-      z-index: 3;
-    }
+    .hero-right { position: relative; overflow: hidden; background: #1b3033 url('assets/company-construction-cover.jpg') center center / cover no-repeat; min-height: 450px; }
+    .hero-right::before { content:''; position:absolute; inset:0; background:linear-gradient(120deg,rgba(10,34,30,.08),rgba(8,30,20,.22)); pointer-events:none; }
+    .hero-diagonal { position: absolute; top: 0; right: 0; border-left: 70px solid transparent; border-top: 70px solid #2e7b48; z-index: 2; }
     .hero-stat-strip {
       position: absolute; bottom: 0; left: 0; right: 0;
       display: flex;
@@ -721,29 +698,8 @@
         <a href="#contact" class="btn-outline">Get a Quote</a>
       </div>
     </div>
-    <div class="hero-right">
+    <div class="hero-right" role="img" aria-label="Actual steel erection construction photograph from Dan and Ron company profile">
       <div class="hero-diagonal"></div>
-      <div class="hero-graphic">
-        <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="40" y="280" width="320" height="20" fill="#e8610a" opacity="0.6"/>
-          <rect x="60" y="180" width="40" height="100" fill="#e8610a" opacity="0.4"/>
-          <rect x="180" y="140" width="40" height="140" fill="#e8610a" opacity="0.6"/>
-          <rect x="300" y="200" width="40" height="80" fill="#e8610a" opacity="0.4"/>
-          <line x1="200" y1="60" x2="200" y2="140" stroke="#e8610a" stroke-width="4" opacity="0.8"/>
-          <line x1="200" y1="60" x2="340" y2="60" stroke="#e8610a" stroke-width="4" opacity="0.8"/>
-          <line x1="340" y1="60" x2="340" y2="200" stroke="#e8610a" stroke-width="2" stroke-dasharray="6,4" opacity="0.6"/>
-          <circle cx="200" cy="60" r="8" fill="#e8610a" opacity="0.9"/>
-          <circle cx="340" cy="200" r="6" fill="#e8610a" opacity="0.6"/>
-          <rect x="68" y="200" width="12" height="12" fill="#e8610a" opacity="0.5"/>
-          <rect x="68" y="222" width="12" height="12" fill="#e8610a" opacity="0.5"/>
-          <rect x="188" y="160" width="12" height="12" fill="#e8610a" opacity="0.5"/>
-          <rect x="188" y="185" width="12" height="12" fill="#e8610a" opacity="0.5"/>
-          <rect x="188" y="210" width="12" height="12" fill="#e8610a" opacity="0.5"/>
-          <rect x="308" y="218" width="12" height="12" fill="#e8610a" opacity="0.5"/>
-          <line x1="20" y1="300" x2="380" y2="300" stroke="rgba(232,97,10,0.3)" stroke-width="1"/>
-          <line x1="20" y1="320" x2="380" y2="320" stroke="rgba(232,97,10,0.15)" stroke-width="1"/>
-        </svg>
-      </div>
     </div>
   </section>
 
